@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>想跟你说</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+    h1 { color: #333; }
+    pre {
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>📚 我的文本内容</h1>
+  <div id="content">正在加载...</div>
+
+  <script>
+    // 列出你要显示的文本文件（路径相对于 index.html）
+    const textFiles = [
+      'texts/intro.txt',
+      'texts/notes.txt',
+      'texts/poem.txt'
+    ];
+
+    const contentDiv = document.getElementById('content');
+
+    async function loadTexts() {
+      contentDiv.innerHTML = ''; // 清空“正在加载”
+      for (const file of textFiles) {
+        try {
+          const response = await fetch(file);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const text = await response.text();
+
+          const pre = document.createElement('pre');
+          pre.innerHTML = `<strong>${file}</strong>\n\n${text}`;
+          contentDiv.appendChild(pre);
+        } catch (err) {
+          contentDiv.innerHTML += `<p class="error">❌ 无法加载 ${file}: ${err.message}</p>`;
+        }
+      }
+    }
+
+    loadTexts();
+  </script>
+</body>
+</html>
