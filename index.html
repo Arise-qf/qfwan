@@ -39,7 +39,7 @@
           const text = await response.text();
 
           const pre = document.createElement('pre');
-          pre.innerHTML = `<strong>${file}</strong>\n\n${text}`;
+          pre.innerHTML = `${text}`;
           contentDiv.appendChild(pre);
         } catch (err) {
           contentDiv.innerHTML += `<p class="error">❌ 无法加载 ${file}: ${err.message}</p>`;
@@ -51,4 +51,5 @@
   </script>
 </body>
 </html>
+
 
